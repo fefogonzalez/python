@@ -1,6 +1,9 @@
 import os
 import platform
+
+#FG: verificar si es necesario importarla
 import psutil #instalar previamente con -->  "pip install psutil"
+
 import paramiko #instalar previamente con --> pip install paramiko
 import socket
 
@@ -56,12 +59,12 @@ def getLoggedUsers():
 
 
 def ObtenerProcesosActivos():
-    host = "IP-ADDR"
+    host = "20.124.96.180"
     port = 22
-    username = "USUARIO"
-    password = "PASSWORD"
+    username = "usr-challenge"
+    password = "Pa$$w0rd-2021"
 
-    command = "pwd"
+    command = "ps -ef"
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -69,45 +72,126 @@ def ObtenerProcesosActivos():
 
     stdin, stdout, stderr = ssh.exec_command(command)
     lines = stdout.readlines()
+
+#FG: Parsear la salida antes de mostrar
+#contar cantidad de procesos
+
     print(lines)
 
-def ObtenerUsuariosConectados():
-    host = "IP-ADDR"
-    port = 22
-    username = "USUARIO"
-    password = "PASSWORD"
+def ObtenerUsuariosConectados(host, port, usuario_ssh, password_ssh):
+    #host = "20.124.96.180"
+    #port = 22
+    #username = "usr-challenge"
+    #password = "Pa$$w0rd-2021"
 
     command = "who"
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(host, port, username, password)
+    ssh.connect(host, port, usuario_ssh, password_ssh)
 
     stdin, stdout, stderr = ssh.exec_command(command)
     lines = stdout.readlines()
+    
+    
+    #FG: parsear la salida antes de mostrarla, ya que muestra todos los usuarios en una misma linea
+    
     print(lines)
 
 
 
+
+
+def ObtenerInfoDelSistema(host, port, usuario_ssh, password_ssh):
+    #host = "20.124.96.180"
+    #port = 22
+    #username = "usr-challenge"
+    #password = "Pa$$w0rd-2021"
+
+    command = "uname -n"
+
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(host, port, usuario_ssh, password_ssh)
+
+    stdin, stdout, stderr = ssh.exec_command(command)
+    lines = stdout.readlines()
+    
+    
+    #FG: parsear la salida antes de mostrarla, ya que muestra todos los usuarios en una misma linea
+    
+    print(lines)
+
+
 def main():
 
-    inventario = open('myfile.txt', 'r')
-    lista_equipos = inventario.readlines()
+    #inventario = open('myfile.txt', 'r')
+    #lista_equipos = inventario.readlines()
  
-    count = 0
-    for equipo in lista_equipos:
-        count += 1
 
-        Disponibilidad  = Verificar_disponibilidad(equipo.strip(),22)
+
+    #host = "40.121.154.246"
+    #port = 22
+    #usuario_ssh = "usr-challenge"
+    #password_ssh = "Pa$$w0rd-2021"
+
+    input_file_name = 'inventario.csv'
+
+    file_in = open(input_file_name)
+
+    #Saltear encabezado
+    row = next(file_in)
+
+    equipos = []
+
+    for line in file_in:
+    
+        line  = line.strip('\n')
+        line = line.split(',')
+    
+        host = line[0]
+        port = int(line[1])
+        usuario_ssh = line[2]
+        password_ssh = line[3]
+    
+        print('host:', host,'port:', port,'usuario:',usuario_ssh,'password:',password_ssh)
+    
+
+    #count = 0
+    #for equipo in lista_equipos:
+        #count += 1
+
+        #leer los siguientes datos desde el inventario
+        #host = "20.124.96.180"
+        #port = 22
+        #username = "usr-challenge"
+        #password = "Pa$$w0rd-2021"
+
+        #currentline = equipo.split(",")
+        
+        #print(equipo.split(","))
+
+        #host = str(currentline[0])
+        #port = currentline[1]
+        #usuario_ssh = currentline[2]
+        #password_ssh = currentline[3]
+        
+        #print("el nombre del equipo es " + host )
+
+        #Disponibilidad  = Verificar_disponibilidad(equipo.strip(),port)
+        Disponibilidad  = Verificar_disponibilidad(host,port)
 
         if (Disponibilidad) :
             #print(getListOfProcessActive())
             #print(getHostInformation())
             #print(getLoggedUsers())
-            print(ObtenerProcesosActivos())
-            print(ObtenerUsuariosConectados())
+            ###print(ObtenerProcesosActivos())
+            print(ObtenerInfoDelSistema(host,port,usuario_ssh,password_ssh))
+            print(ObtenerUsuariosConectados(host,port,usuario_ssh,password_ssh))
         else:
-            print("No hay conectividad con el target " + equipo.strip())
+            print("No hay conectividad con el target " + host)
+    
+    file_in.close()
 
 
 if __name__ == '__main__':

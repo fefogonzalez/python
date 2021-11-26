@@ -59,11 +59,6 @@ def getLoggedUsers():
 
 
 def ObtenerProcesosActivos():
-    host = "20.124.96.180"
-    port = 22
-    username = "usr-challenge"
-    password = "Pa$$w0rd-2021"
-
     command = "ps -ef"
 
     ssh = paramiko.SSHClient()
@@ -79,10 +74,6 @@ def ObtenerProcesosActivos():
     print(lines)
 
 def ObtenerUsuariosConectados(host, port, usuario_ssh, password_ssh):
-    #host = "20.124.96.180"
-    #port = 22
-    #username = "usr-challenge"
-    #password = "Pa$$w0rd-2021"
 
     command = "who"
 
@@ -103,10 +94,6 @@ def ObtenerUsuariosConectados(host, port, usuario_ssh, password_ssh):
 
 
 def ObtenerInfoDelSistema(host, port, usuario_ssh, password_ssh):
-    #host = "20.124.96.180"
-    #port = 22
-    #username = "usr-challenge"
-    #password = "Pa$$w0rd-2021"
 
     command = "uname -n"
 
@@ -124,16 +111,6 @@ def ObtenerInfoDelSistema(host, port, usuario_ssh, password_ssh):
 
 
 def main():
-
-    #inventario = open('myfile.txt', 'r')
-    #lista_equipos = inventario.readlines()
- 
-
-
-    #host = "40.121.154.246"
-    #port = 22
-    #usuario_ssh = "usr-challenge"
-    #password_ssh = "Pa$$w0rd-2021"
 
     input_file_name = 'inventario.csv'
 
@@ -156,29 +133,6 @@ def main():
     
         print('host:', host,'port:', port,'usuario:',usuario_ssh,'password:',password_ssh)
     
-
-    #count = 0
-    #for equipo in lista_equipos:
-        #count += 1
-
-        #leer los siguientes datos desde el inventario
-        #host = "20.124.96.180"
-        #port = 22
-        #username = "usr-challenge"
-        #password = "Pa$$w0rd-2021"
-
-        #currentline = equipo.split(",")
-        
-        #print(equipo.split(","))
-
-        #host = str(currentline[0])
-        #port = currentline[1]
-        #usuario_ssh = currentline[2]
-        #password_ssh = currentline[3]
-        
-        #print("el nombre del equipo es " + host )
-
-        #Disponibilidad  = Verificar_disponibilidad(equipo.strip(),port)
         Disponibilidad  = Verificar_disponibilidad(host,port)
 
         if (Disponibilidad) :

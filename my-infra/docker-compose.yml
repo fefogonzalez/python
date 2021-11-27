@@ -1,0 +1,39 @@
+version: "2"
+services:
+  #base:
+  #  build: ./base/
+  #  image: ansible_base
+  pythonsrv:
+    #links:
+    #  - base
+    build: ./app_server/
+    image: app_server
+    container_name: pythonsrv
+    hostname: pythonsrv
+    command: ["/usr/sbin/sshd","-D"]
+    volumes:
+      - ansible_vol:/var/ans
+  host01:
+    #links:
+    #  - base
+    #  - master
+    build: ./host/
+    image: target_host
+    container_name: host01
+    hostname: host01
+    command: ["/var/run.sh"]
+    volumes:
+     - ansible_vol:/var/ans
+  host02:
+    #links:
+    #  - base
+    #  - master
+    build: ./host/
+    image: target_host
+    container_name: host02
+    hostname: host02
+    command: ["/var/run.sh"]
+    volumes:
+     - ansible_vol:/var/ans
+volumes:
+  ansible_vol:

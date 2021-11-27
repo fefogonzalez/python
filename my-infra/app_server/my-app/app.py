@@ -29,13 +29,16 @@ def getHostInformation():
     #print(f"Informacion del procesador: {platform.processor()}")
 
 
-def ObtenerProcesosActivos(host, port, usuario_ssh, password_ssh):
+def ObtenerProcesosActivos(host, port, usuario_ssh, password_ssh,ssh_cred):
     # Muestro solo las columnas pid y command
     command = "ps -eo pid,comm"
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(host, port, usuario_ssh, password_ssh)
+    if (ssh_cred) :
+        ssh.connect(host, port, usuario_ssh, password_ssh)
+    else:
+        ssh.connect(host, port, usuario_ssh)
 
     stdin, stdout, stderr = ssh.exec_command(command)
     lines = stdout.readlines()
@@ -45,12 +48,15 @@ def ObtenerProcesosActivos(host, port, usuario_ssh, password_ssh):
 
     print(lines)
 
-def ObtenerUsuariosConectados(host, port, usuario_ssh, password_ssh):
+def ObtenerUsuariosConectados(host, port, usuario_ssh, password_ssh,ssh_cred):
     command = "who"
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(host, port, usuario_ssh, password_ssh)
+    if (ssh_cred) :
+        ssh.connect(host, port, usuario_ssh, password_ssh)
+    else:
+        ssh.connect(host, port, usuario_ssh)
 
     stdin, stdout, stderr = ssh.exec_command(command)
     lines = stdout.readlines()
@@ -63,12 +69,15 @@ def ObtenerUsuariosConectados(host, port, usuario_ssh, password_ssh):
 
 
 
-def ObtenerInfoDelSistema(host, port, usuario_ssh, password_ssh):
+def ObtenerInfoDelSistema(host, port, usuario_ssh, password_ssh,ssh_cred):
     command = "uname -n"
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(host, port, usuario_ssh, password_ssh)
+    if (ssh_cred) :
+        ssh.connect(host, port, usuario_ssh, password_ssh)
+    else:
+        ssh.connect(host, port, usuario_ssh)
 
     stdin, stdout, stderr = ssh.exec_command(command)
     lines = stdout.readlines()
@@ -99,8 +108,9 @@ def main():
         port = int(line[1])
         usuario_ssh = line[2]
         password_ssh = line[3]
+        ssh_cred = line[4]
     
-        print('host:', host,'port:', port,'usuario:',usuario_ssh,'password:',password_ssh)
+        print('host:', host,'port:', port,'usuario:',usuario_ssh,'password:',password_ssh,'ssh_cred:',ssh_cred)
     
         Disponibilidad  = Verificar_disponibilidad(host,port)
 
@@ -108,9 +118,9 @@ def main():
         
         if (Disponibilidad) :
             #print(getHostInformation())
-            print(ObtenerProcesosActivos(host,port,usuario_ssh,password_ssh))
-            print(ObtenerInfoDelSistema(host,port,usuario_ssh,password_ssh))
-            print(ObtenerUsuariosConectados(host,port,usuario_ssh,password_ssh))
+            print(ObtenerProcesosActivos(host,port,usuario_ssh,password_ssh,ssh_cred))
+            print(ObtenerInfoDelSistema(host,port,usuario_ssh,password_ssh,ssh_cred))
+            print(ObtenerUsuariosConectados(host,port,usuario_ssh,password_ssh,ssh_cred))
         else:
             print("No hay conectividad con el target " + host)
                     

@@ -4,13 +4,10 @@ import pymysql #instalar previamente con --> pip install pymysql, agregar al doc
 print("Ingrese el hostname a buscar")
 hostname = input()
 
-#validar que se haya ingresado algo
-print(hostname)
-
+#FG: Punto a mejorar 5
 hostname = hostname+'%'
 
-print(hostname)
-
+#FG: Punto a mejorar
 conexion = pymysql.connect(
                                 host='sql532.main-hosting.eu',
                                 user='u561475971_dbadmin',

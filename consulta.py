@@ -10,10 +10,10 @@ hostname = hostname+'%'
 
 #FG: Punto a mejorar
 conexion = pymysql.connect(
-                                host='sql532.main-hosting.eu',
-                                user='u561475971_dbadmin',
-                                password='Pa$$w0rd',
-                                db='u561475971_db_inventario',
+                                host='SERVIDOR_BBDD',
+                                user='USER_DB',
+                                password='PASSWORD_DB',
+                                db='MY_DB',
                                 port=3306
                             )
 

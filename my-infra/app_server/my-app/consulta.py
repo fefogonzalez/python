@@ -3,6 +3,7 @@ import pymysql #instalar previamente con --> pip install pymysql, agregar al doc
 
 print("Ingrese el hostname a buscar")
 hostname = input()
+#validar que se haya ingresado algo
 
 #FG: Punto a mejorar 5
 hostname = hostname+'%'

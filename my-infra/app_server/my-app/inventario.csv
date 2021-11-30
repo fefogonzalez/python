@@ -1,4 +1,7 @@
 host,port,usuario_ssh,password_ssh,ssh_cred
-MY-HOST,PORT_SSH,USER_SSH,PASSWORD_SSH,1
-MY-HOST2,PORT_SSH,USER_SSH,PASSWORD_SSH,1
-MY-HOST3,PORT_SSH,USER_SSH,,0
+40.121.154.246,22,usr-challenge,Pa$$w0rd-2021,1
+181.44.68.94,10123,root,123TwOrecon,1
+181.44.68.94,10122,root,123TwOrecon,1
+host01,22,root,,0
+host02,22,root,,0
+host03,22,root,,0
